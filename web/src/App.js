@@ -57,12 +57,11 @@ function App(props) {
       <div className='container wrapper '>
         <div className='content'>
           <div className='row'>
-            <div className='col-8 '>
+            <div className='col-8 d-flex justify-content-center'>
               <Image
                 src={slidesData.length !== 0 && slidesData[activeSlide].image}
-                className='img-fluid'
+                className='img-fluid img-size'
                 alt='Image'
-                height={100}
               />
             </div>
             <div className='col-4 text-container'>

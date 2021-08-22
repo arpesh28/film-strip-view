@@ -12,6 +12,9 @@
   padding: 40px;
   background-color: red;
 }
+.img-size {
+  height: 100% !important;
+}
 .thumbnail-container {
   padding: 30px;
   border: 1px solid grey;
@@ -35,6 +38,11 @@
 }
 .thumbnail {
   width: unset !important;
+}
+.thumbnail .img-id {
+}
+.thumbnail:hover {
+  cursor: pointer;
 }
 .thumbnail-container .not-selected:hover img {
   cursor: pointer;
@@ -63,6 +71,7 @@
   padding: 5px;
   color: white;
   font-weight: 400;
+  margin-right: 10px;
 }
 .thumbnail .img-id {
   background-color: #e0e0e0;
