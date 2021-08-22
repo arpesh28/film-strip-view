@@ -2,38 +2,51 @@ const express = require('express');
 const router = new express.Router();
 const axios = require('axios').default;
 const ImageData = require('../models/Images');
+const path = require('path');
 // var FormData = require('form-data');
 // var fs = require('fs');
+const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+
+cloudinary.config({
+  cloud_name: 'arpesh28',
+  api_key: '589537668678458',
+  api_secret: 'WNvyHxZMZnP7UI2sva75nRcZPUE',
+});
+
+const upload = multer({
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, cb) => {
+    let ext = path.extname(file.originalname);
+    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+      cb(new Error('FIle type is not supported'), false);
+      return;
+    }
+    cb(null, true);
+  },
+});
 
 router.post('/addfilms', upload.single('image'), async (req, res) => {
   try {
-    // const { image } = req.body || {};
-    var film;
-    const formData = new FormData();
-    formData.append('image', req.file);
-    formData.append('upload_preset', 'lvhsyqrb');
-    axios
-      .post('https://api.cloudinary.com/v1_1/arpesh28/image/upload', formData)
-      .then((res) => {
-        console.log('res', res);
-        // film = new ImageData({ ...req.body, image: res, thumbnail: res });
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    const { secure_url, url } = result;
+    const imageData = ImageData({
+      ...req.body,
+      image: url,
+      thumbnail: url,
+    });
+
+    await imageData
+      .save()
+      .then((result) => {
+        console.log('result', result);
       })
-      .catch((err) => {
-        console.log('upld Err:', err);
+      .catch((er) => {
+        console.log('error');
       });
 
-    // await film
-    //   .save()
-    //   .then((result) => {
-    //     console.log('result', result);
-    //   })
-    //   .catch((er) => {
-    //     console.log('error');
-    //   });
-
-    res.status(201).send(film);
+    res.status(201).send(imageData);
   } catch (err) {
     console.log('Adding Error', err);
     return res.status(400).send('err');

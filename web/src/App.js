@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import sample from './Images/sample.jpg';
@@ -41,16 +40,6 @@ function App(props) {
     beforeChange: (current, next) => {
       setCurrentSlide(current);
       setNextSlide(next);
-      // setCurrentSlide(current);
-      // if (slides.length % 4 == 0) {
-      //   setNextSlide(next);
-      // } else {
-      //   if (currentSlide + 4 > slides.length - 1) {
-      //     setCurrentSlide(next);
-      //   } else {
-      //     setCurrentSlide(next);
-      //   }
-      // }
     },
     afterChange: (current) => {
       setCurrentSlide(current);
@@ -70,13 +59,7 @@ function App(props) {
           <div className='row'>
             <div className='col-8 '>
               <Image
-                src={sample}
-                className='img-fluid'
-                alt='Image'
-                height={100}
-              />
-              <img
-                src={require('./Images/sample.jpg')}
+                src={slidesData.length !== 0 && slidesData[activeSlide].image}
                 className='img-fluid'
                 alt='Image'
                 height={100}
@@ -111,13 +94,25 @@ function App(props) {
               <div className='field-container'>
                 <h4>
                   <span>Thumbnail File</span>{' '}
-                  {slidesData.length != 0 && slidesData[activeSlide].thumbnail}
+                  {slidesData.length != 0 &&
+                    slidesData[activeSlide].thumbnail.slice(
+                      slidesData.length != 0 &&
+                        slidesData[activeSlide].thumbnail.lastIndexOf('/') + 1,
+                      slidesData.length != 0 &&
+                        slidesData[activeSlide].thumbnail.length
+                    )}
                 </h4>
               </div>
               <div className='field-container'>
                 <h4>
                   <span>Large Image File</span>{' '}
-                  {slidesData.length != 0 && slidesData[activeSlide].thumbnail}
+                  {slidesData.length != 0 &&
+                    slidesData[activeSlide].image.slice(
+                      slidesData.length != 0 &&
+                        slidesData[activeSlide].image.lastIndexOf('/') + 1,
+                      slidesData.length != 0 &&
+                        slidesData[activeSlide].image.length
+                    )}
                 </h4>
               </div>
             </div>
@@ -141,8 +136,6 @@ function App(props) {
             <Slider ref={(c) => (slider = c)} {...settings}>
               {slidesData &&
                 slidesData.map((slide, index) => {
-                  // import thumb from `./Images/thumbnails/${slide.thumbnail}`
-                  var thumb = require(`./Images/thumbnails/${slide.thumbnail}`);
                   return (
                     <div
                       className={`thumbnail d-flex flex-column align-items-center  ${
@@ -150,7 +143,12 @@ function App(props) {
                       }`}
                       onClick={() => setActiveSlide(index)}
                     >
-                      <img src={thumb} alt='image' height={100} className='' />
+                      <img
+                        src={slide.thumbnail}
+                        alt='image'
+                        height={100}
+                        className=''
+                      />
                       <div className='img-id'>{slide.id}</div>
                     </div>
                   );

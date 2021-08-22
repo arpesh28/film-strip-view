@@ -1,12 +1,14 @@
 require('./src/models/Images');
 
 const express = require('express');
+const cors = require('cors');
 
 const imagesRoutes = require('./src/routes/imagesRoutes');
 
 require('./src/db/mongoose');
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(
