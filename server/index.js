@@ -1,14 +1,13 @@
 require('./src/models/Images');
-require('./src/db/mongoose');
 
 const express = require('express');
-const bodyParser = require('body-parser');
-var cors = require('cors');
 
 const imagesRoutes = require('./src/routes/imagesRoutes');
 
+require('./src/db/mongoose');
+
 const app = express();
-app.use(cors());
+
 app.use(express.json());
 app.use(
   express.urlencoded({
