@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import sample from './Images/sample.jpg';
+import { Image } from 'react-bootstrap';
 import previousIcon from './Images/previous.png';
 import nextIcon from './Images/next.png';
 import 'slick-carousel/slick/slick.css';
@@ -68,8 +69,14 @@ function App(props) {
         <div className='content'>
           <div className='row'>
             <div className='col-8 '>
-              <img
+              <Image
                 src={sample}
+                className='img-fluid'
+                alt='Image'
+                height={100}
+              />
+              <img
+                src={require('./Images/sample.jpg')}
                 className='img-fluid'
                 alt='Image'
                 height={100}
@@ -134,6 +141,8 @@ function App(props) {
             <Slider ref={(c) => (slider = c)} {...settings}>
               {slidesData &&
                 slidesData.map((slide, index) => {
+                  // import thumb from `./Images/thumbnails/${slide.thumbnail}`
+                  var thumb = require(`./Images/thumbnails/${slide.thumbnail}`);
                   return (
                     <div
                       className={`thumbnail d-flex flex-column align-items-center  ${
@@ -141,12 +150,7 @@ function App(props) {
                       }`}
                       onClick={() => setActiveSlide(index)}
                     >
-                      <img
-                        src={`${slide.thumbnail}`}
-                        alt='image'
-                        height={100}
-                        className=''
-                      />
+                      <img src={thumb} alt='image' height={100} className='' />
                       <div className='img-id'>{slide.id}</div>
                     </div>
                   );
